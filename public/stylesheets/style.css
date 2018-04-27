@@ -1,0 +1,25 @@
+
+
+/* css reset */
+
+
+/* nav-bar */
+.user-info-box{
+    height: 100%;
+    padding: 10px;
+}
+
+
+/* banner */
+.banner-image{
+    width: 100%;
+    height: 400px!important;
+}
+
+.carousel-control{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2.5em;
+}
+

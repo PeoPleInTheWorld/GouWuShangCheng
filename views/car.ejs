@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+</head>
+<style>
+    .goods-box{
+        width: 70%;
+        margin: 0 auto;
+    }
+   .good-item{
+       display: flex;
+       justify-content: space-between;
+       position: relative;
+   }
+   .remove-btn{
+       position: absolute;
+       right:15px;
+       top: 15px;
+       z-index: 100;
+       cursor: pointer;
+       transition: all 0.3s;
+   }
+   .remove-btn:hover{
+       transform: scale(1.5,1.5)
+   }
+   .good-item img{
+        width: 100px;
+        height: 100px;
+   }
+   .good-item .info-box{
+       display: flex;
+   }
+   .good-info{margin-left: 20px;}
+   .btn-box{
+       display: flex;
+       align-items: center;
+   }
+</style>
+<body>
+    <header class="conatiner-fluid">
+        <nav class="navbar navbar-default">
+            <div class="container">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">               
+                    <a class="navbar-brand" href="#"><%= title %></a>
+                </div>
+            
+                <div class="user-info-box navbar-right navbar-header">
+                    <div class="user-info hidden">
+                        欢迎<span  class="nickname label label-info"></span>回来!!!
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        <button onclick="exit()" class="btn btn-primary">退出</button>
+                    </div>
+                    <div class="control-btn">
+                        <a href="/users/login" class="btn btn-primary">登陆</a>
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        <a href="/users/register" class="btn btn-primary">注册</a>
+                    </div>
+                </div>
+                
+            </div>
+        </nav>
+    </header>
+
+
+    <section class="container goods-box">
+        <p class="text-right"><a href="/">返回首页</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="/list">返回列表</a></p>
+        <div class="row good-row">
+            
+            
+
+            <% if(cars=='not login'){ %>
+                <p class="alert alert-danger">请登陆后操作</p>
+            <% }else if(cars=='not buy'||cars.length==0){ %>
+                <img class="center-block" src="/images/nogoods.jpg" alt="">
+            <% }else{ %>
+                
+                <ul class="list-group goods-box">
+                    <% cars.forEach(function(good,i){ %>
+                        <li class="good-item list-group-item">
+                            <span  data-id="<%= good.goodid %>"  class="glyphicon glyphicon-remove remove-btn" ></span>
+                            <div class="info-box">
+                                <img src="<%= good.imgurl %>" alt="">
+                                <div class="good-info">
+                                    <h3><%= good.title %></h3>
+                                    <p>单价：￥：<span class="good-price"><%= good.price %></span>&nbsp;&nbsp;总价：￥：<span class="good-money"><%= good.price*good.num %></span></p>
+                                </div>
+                            </div>
+                            
+                            <div class="btn-box">
+                                <button data-id="<%= good.goodid %>" class="btn btn-info reduce-btn">-</button>
+                                <button class="btn btn-default good-num"><%= good.num %></button>
+                                <button data-id="<%= good.goodid %>" class="btn btn-info add-btn">+</button>
+                            </div>    
+                        </li>
+                    <% }) %>
+                    
+                </ul>
+                
+                <p class="clearfix" style="width:70%;margin:15px auto 0px;">
+                    总价钱：￥：<span class="all_money">0</span>;总数量：<span class="all_num">0</span>件
+                    <button class="btn btn-danger pull-right">去支付</button>
+                   
+                    <button style="margin-right:15px;" class="btn btn-danger pull-right clear-btn">清空购物车</button>
+                    
+                </p>
+
+            <% } %>
+        </div>
+    </section>
+
+    <script src="/javascripts/jquery.min.js"></script>
+    <script src="/javascripts/bootstrap.min.js"></script>
+    <script src="/javascripts/jquery.cookie.js"></script>
+    <script>
+        
+        init()
+
+        function init(){
+            check_login()
+        }
+
+        function check_login(isNull){
+            let _isNull= isNull || true
+            var user_info = $.cookie("user_info")
+            
+            if(user_info&&_isNull){
+                $(".user-info").removeClass("hidden").find(".nickname").text(JSON.parse(user_info).nickname)
+                $(".control-btn").addClass("hidden")   
+            }else{
+                $(".user-info").addClass("hidden")
+                $(".control-btn").removeClass("hidden")   
+            }
+        }
+
+
+        function exit(){
+            $.cookie('user_info',null)
+            check_login(false)
+        }
+    </script>
+    <script src="/javascripts/car.js"></script>
+    
+</body>
+</html>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>注册</title>
+    <link rel="stylesheet" href="/stylesheets/bootstrap.min.css">
+</head>
+<style>
+    .form-box{
+        width: 50%;
+        margin: 0 auto;
+    }
+</style>
+<body>
+        <%- include("./normal-header.ejs") %>
+
+    <div class="container">
+        <div class="panel panel-primary form-box">
+            <div class="panel-heading">
+                注册：
+            </div>
+            <div class="panel-body">
+                <form id="login-form">
+                    <div class="form-group">
+                        <label for="">用户名：</label>
+                        <input id="username" type="text" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="">密码：</label>
+                        <input id="password" type="password" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="">昵称：</label>
+                        <input id="nickname" type="text" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary">提交</button>
+                        <button type="reset" class="btn btn-default">重置</button>
+                        <a href="/static/login.html" class="btn btn-info">登陆</a>
+                        <a href="/" class="btn btn-info">返回首页</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    
+
+    <script src="/javascripts/jquery.min.js"></script>
+    <script src="/javascripts/bootstrap.min.js"></script>
+    <script src="/javascripts/jquery.cookie.js"></script>
+    <script>
+        
+        $("#login-form").submit(function(e){
+            e.preventDefault()
+            register();
+        })
+
+        function register(){
+           $.ajax({
+               url:"/users/register.do",
+               type:'post',
+               dataType:'json',
+               data:{
+                   username:$("#username").val(),
+                   password:$("#password").val(),
+                   nickname:$("#nickname").val(),
+               },
+               success:function(results){
+                   console.log(results)
+                   switch(results){
+                       case 0:alert("注册成功");location.href="/users/login";break;
+                       case 1:alert("用户名已存在");break;
+                   }
+               }
+           })
+        }
+        
+    </script>
+</body>
+</html>

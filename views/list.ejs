@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="/stylesheets/bootstrap.min.css">
+</head>
+<style>
+    .goods-box{padding-top: 30px;}
+    .good-img{height: 200px!important;}
+</style>
+<body>
+    <header class="conatiner-fluid header">
+        <nav class="navbar navbar-default header__nav">
+            <div class="container">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">               
+                    <a class="navbar-brand header__logo" href="#"><%= title %></a>
+                </div>
+            
+                <div class="user-info-box navbar-right navbar-header">
+                    <div class="user-info hidden">
+                        欢迎<span  class="nickname label label-info"></span>回来!!!
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        <button onclick="exit()" class="btn btn-primary">退出</button>
+                    </div>
+                    <div class="control-btn">
+                        <a href="/users/login" class="btn btn-primary">登陆</a>
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        <a href="/users/register" class="btn btn-primary">注册</a>
+                    </div>
+                </div>
+                
+            </div>
+        </nav>
+    </header>
+
+
+    <section class="container goods-box">
+        <p class="text-right"><a href="/">返回首页</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="/car">查看购物车</a></p>
+        <div class="row good-row">
+            
+            
+        </div>
+        <button class="btn btn-info" onclick="changePage(false)">prev</button>
+        <button class="btn btn-default" id="pageNum"></button>
+
+        <button class="btn btn-info" onclick="changePage(true)">next</button>
+    </section>
+    <script src="/javascripts/jquery.min.js"></script>
+    <script src="/javascripts/bootstrap.min.js"></script>
+    <script src="/javascripts/jquery.cookie.js"></script>
+    <script>
+        
+        init()
+
+        function init(){
+            check_login()
+        }
+
+        function check_login(isNull){
+            let _isNull= isNull || true
+            var user_info = $.cookie("user_info")
+            
+            if(user_info&&_isNull){
+                $(".user-info").removeClass("hidden").find(".nickname").text(JSON.parse(user_info).nickname)
+                $(".control-btn").addClass("hidden")   
+            }else{
+                $(".user-info").addClass("hidden")
+                $(".control-btn").removeClass("hidden")   
+            }
+        }
+
+
+        function exit(){
+            $.cookie('user_info',null)
+            check_login(false)
+        }
+    </script>
+    <script src="/javascripts/list.js"></script>
+</body>
+</html>

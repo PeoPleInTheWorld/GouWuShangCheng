@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>首页</title>
+    <link rel="stylesheet" href="/stylesheets/bootstrap.min.css">
+    <link rel="stylesheet" href="/stylesheets/swiper-3.4.2.min.css">
+    <link rel="stylesheet" href="/stylesheets/style.css">
+</head>
+<style>
+    .goods-box{padding-top: 30px;}
+    .good-img{height: 200px!important;}
+    .noticeImg{width:200px;float:right;}
+    ，notice{width:200px;}
+    .noticeitem{width:170px;text-overflow: ellipsis;white-space: nowrap;overflow: hidden;}
+</style>
+<body>
+    <header class="conatiner-fluid">
+        <nav class="navbar navbar-default">
+            <div class="container">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">               
+                    <a class="navbar-brand" href="#"><%= title %></a>
+                    <!--添加公告 4.25-->
+
+                    <div class="noticeImg">
+                        <img src="images/notice.jpg"/ style="width:30px;margin-top:10px;">
+                        <div class="swiper-container notice" style="margin-left:30px;margin-top:-28px">
+                            <div class="swiper-wrapper " style="font-size:20px;color:red;">
+                                <div class="swiper-slide noticeitem">今日特价!所有商品八折！抓紧时间抢购了！</div>
+                                <div class="swiper-slide noticeitem">今日特价!所有商品八折！抓紧时间抢购了!</div>
+                                <div class="swiper-slide noticeitem">今日特价!所有商品八折！抓紧时间抢购了!</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="user-info-box navbar-right navbar-header">
+                    <div class="user-info hidden">
+                        欢迎<span  class="nickname label label-info"></span>回来!!!
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        <button onclick="exit()" class="btn btn-primary">退出</button>
+                    </div>
+                    <div class="control-btn">
+                        <a href="/users/login" class="btn btn-primary">登陆</a>
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        <a href="/users/register" class="btn btn-primary">注册</a>
+                    </div>
+                </div>
+                
+            </div>
+        </nav>
+    </header>
+
+    <section class="container">
+        <!-- <%= JSON.stringify(banners) %> -->
+        <div class="swiper-container">
+            <div class="swiper-wrapper">  
+                <% banners.forEach(function(item,i){ %>
+                    <div class="swiper-slide">
+                        <img class="banner-image" src="<%= item.url %>" title="<%= item.title %>"/>    
+                    </div>
+                <%  }) %>                     
+            </div>
+            <!-- 如果需要分页器 -->
+            <div class="swiper-pagination"></div>
+            
+            <!-- 如果需要导航按钮 -->
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next"></div>
+
+        </div>
+
+    </section>
+    <!-- <%= JSON.stringify(goods)%> -->
+    <section class="container goods-box">
+        <p class="text-right"><a href="/car">购物车</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="/list">查看更多</a></p>
+        <div class="row">
+            <% goods.forEach(function(good,i){ %>
+                <div class="col-xs-12 col-md-6 col-lg-3">
+                    <div class="thumbnail">
+                        <img class="good-img" tite="<%= good.description %>" src="<%= good.imgurl %>" alt="...">
+                        <div class="caption">
+                            <h3><a href="/detail?goodid=<%= good.goodid %>"><%= good.title %></a></h3>
+                            <p><%= good.description %></p>
+                            <p class="clearfix">
+                                <button class="btn btn-danger pull-left" role="button">￥：<%= good.price %></button>
+                                <button data-id="<%= good.goodid %>" class="btn btn-primary pull-right buy-btn" role="button">加入购物车</button>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+            <% }) %>
+            
+        </div>
+    </section>
+    <div id="column">
+         <img src="images/"/>
+    </div>
+    <script src="/javascripts/jquery.min.js"></script>
+    <script src="/javascripts/swiper-3.4.2.jquery.min.js"></script>
+    <script src="/javascripts/bootstrap.min.js"></script>
+    <script src="/javascripts/jquery.cookie.js"></script>
+    <script src="/javascripts/app.js"></script>
+</body>
+</html>
